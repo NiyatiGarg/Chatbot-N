@@ -57,7 +57,7 @@ const ContextProvider = (props) => {
     setLoading(false);
     setInput("");
   };
-  
+
 
   useEffect(() => {
     if (recentPrompt !== "") {
@@ -76,7 +76,7 @@ const ContextProvider = (props) => {
     resultData,
     input,
     setInput,
-    newChat
+    newChat,
   };
   return (
     <Context.Provider value={contextValue}>{props.children}</Context.Provider>

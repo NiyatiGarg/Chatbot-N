@@ -2,40 +2,53 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
-const Sidebar = () => { 
+const Sidebar = () => {
   const [extended, setExtended] = useState(false);
-  const { onSent, prevPrompts, setRecentPrompt , newChat } = useContext(Context);
+  const { onSent, prevPrompts, setRecentPrompt, newChat } = useContext(Context);
 
-  const loadPrompt= async (prompt)=>{
+  const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
-    await onSent (prompt)
-  }
+    await onSent(prompt);
+  };
 
   return (
     <div className="sidebar">
       <div className="top">
-        <img onClick={() => setExtended(prev => !prev)} className="menu" src={assets.menu_icon} alt=""/>
-        <div onClick={()=>newChat()} className="new-chat">
+        <img
+          onClick={() => setExtended((prev) => !prev)}
+          className="menu"
+          src={assets.menu_icon}
+          alt=""
+        />
+        <div onClick={() => newChat()} className="new-chat">
           <img src={assets.plus_icon} alt="" />
           {extended ? <p>New Chat </p> : null}
         </div>
-        {extended 
-        ? 
+        {extended ? (
           <div className="recent">
             <p className="recent-title">Recent</p>
             {prevPrompts.map((item, index) => {
-            return(
+              return (
+                <div
+                  key={index}
+                  onClick={() => loadPrompt(item)}
+                  className="recent-entry"
+                >
+                  <div>
+                    <img src={assets.message_icon} alt="Prompt" />
+                    <p>{item.slice(0, 18)} ...</p>
+                  </div>
 
-                <div key={index} onClick={()=> loadPrompt(item)} className="recent-entry">
-                  <img src={assets.message_icon} alt="" />
-                  <p>{item.slice(0, 18)} ...</p>
+                  <button onClick={() => {}} className="delete-button">
+                    <RiDeleteBin6Line />
+                  </button>
                 </div>
-            )
-           
+              );
             })}
           </div>
-        : null}
+        ) : null}
       </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">
