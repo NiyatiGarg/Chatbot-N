@@ -31,7 +31,7 @@ function Main() {
   return (
     <div className="main">
       <div className="nav">
-        <p>VA Test Bot</p>
+        <p>Bumppy Bot</p>
         <img src={userIcon} alt="" />
       </div>
       <div className="main-container">
@@ -39,7 +39,7 @@ function Main() {
           <>
             <div className="greet">
               <p>
-                <span>Hello, Niyati.</span>
+                <span>Hello</span>
               </p>
               <p>How can i help you today? </p>
             </div>
@@ -90,6 +90,12 @@ function Main() {
               value={input}
               type="text"
               placeholder="Enter a prompt here"
+              onKeyDown={(e) => {
+                if (e.key === "Enter"|| e.key === " ") {
+                  e.preventDefault();  // Prevent form submission (if it's inside a form)
+                  handleSend();        // Call handleSend on Enter key press
+                }
+              }}
             />
             <div>
               <img src={galleryIcon} alt="" />
@@ -98,7 +104,7 @@ function Main() {
             </div>
           </div>
           <p className="bottom-info">
-            VA Bot may display inaccurate info , including about people, so
+            Bumppy Bot may display inaccurate info , including about people, so
             double-check its responses.
           </p>
         </div>
