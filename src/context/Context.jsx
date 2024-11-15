@@ -4,12 +4,12 @@ import run from "../config/Gemini";
 export const Context = createContext();
 
 const ContextProvider = (props) => {
-  const [input, setInput] = useState("");
-  const [recentPrompt, setRecentPrompt] = useState("");
-  const [prevPrompts, setPrevPrompts] = useState([]);
-  const [showResult, setShowResult] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState("");
+    const [input, setInput] = useState("");
+    const [recentPrompt, setRecentPrompt] = useState(localStorage.getItem("recentPrompt") || ""); 
+    const [prevPrompts, setPrevPrompts] = useState(JSON.parse(localStorage.getItem("prevPrompts")) || []);
+    const [showResult, setShowResult] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [resultData, setResultData] = useState("");
 
   const delayPara = (index, nextWord) => {
     setTimeout(function () {
@@ -29,13 +29,13 @@ const ContextProvider = (props) => {
     setLoading(true);
     setShowResult(true);
 
-    const currentPrompt = prompt || input; // Use `prompt` if provided, else `input`
-    
-  // Only add to `prevPrompts` if the prompt is new
+    const currentPrompt = prompt || input; 
+
   setPrevPrompts((prev) => 
-    prev.includes(currentPrompt) ? prev : [...prev, currentPrompt]
+    prev.includes(currentPrompt) ? prev : [currentPrompt, ...prev]
   );
   setRecentPrompt(currentPrompt);
+  localStorage.setItem("recentPrompt", currentPrompt); 
 
   const response = await run(currentPrompt);
 
