@@ -36,9 +36,9 @@ const Sidebar = () => {
                   onClick={() => loadPrompt(item)}
                   className="recent-entry"
                 >
-                  <div>
+                  <div >
                     <img src={assets.message_icon} alt="Prompt" />
-                    <p>{item.slice(0, 18)} ...</p>
+                    <p>{item.slice(0, 28)} ...</p>
                   </div>
 
                   <button onClick={() => {}} className="delete-button">
