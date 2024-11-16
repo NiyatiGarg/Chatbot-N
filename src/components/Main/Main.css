@@ -49,8 +49,8 @@
 .main .card {
     height: 200px;
     padding: 15px;
-    background-color: #f0f4f9;
-    border-radius: 10px;
+    background-color: #e0e2d1;
+    border-radius: 5px;
     position: relative;
     cursor: pointer;
 
@@ -61,7 +61,7 @@
     padding: 5px;
     position: absolute;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 5px;
     border: 10px;
     bottom: 10px;
     right: 10px;
@@ -73,7 +73,8 @@
 }
 
 .main .card:hover {
-    background-color: #dfe4ea;
+    background-color: #ffffff;
+    border: 1px solid #dbd2be;
 }
 
 .main-bottom {
@@ -90,9 +91,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    background-color: #f0f4f9;
+    background-color: #e0e2d1;
     padding: 10px 20px;
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .search-box img {
@@ -136,13 +137,20 @@
     margin: 40px 0px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 20px;
+}
 
+.result-title p{
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    padding: 10px 20px;
+    background-color: #e0e2d1;
 }
 
 .result img{
     width: 40px;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 
 .result-data{
@@ -160,7 +168,7 @@
 }
 
 .loader hr{
-    border-radius: 4px;
+    border-radius: 5px;
     border: none;
     background-color: #f6f7f8;
     background: linear-gradient(to right, #9ed7ff, #ffffff, #9ed7ff);

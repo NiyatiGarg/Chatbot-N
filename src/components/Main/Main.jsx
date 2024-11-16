@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 import "./Main.css";
+
+import { LuMessagesSquare } from "react-icons/lu";
+
 import userIcon from "../../assets/user_icon.png";
 import compassIcon from "../../assets/compass_icon.png";
 import bulbIcon from "../../assets/bulb_icon.png";
@@ -9,7 +12,7 @@ import galleryIcon from "../../assets/gallery_icon.png";
 import mic from "../../assets/mic_icon.png";
 import send from "../../assets/send_icon.png";
 import { Context } from "../../context/Context";
-import geminiIcon from "../../assets/gemini_icon.png";
+import botIcon from "../../assets/chat_bot_icon.png";
 
 function Main() {
   const {
@@ -65,11 +68,12 @@ function Main() {
         : 
           <div className="result">
             <div className="result-title">
-              <img src={userIcon} alt="" />
+              {/* <img src={userIcon} alt="" /> */}
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
-              <img src={geminiIcon} alt="" />
+              
+              <img src={botIcon} alt="" />
               {loading ? (
                 <div className="loader ">
                   <hr />

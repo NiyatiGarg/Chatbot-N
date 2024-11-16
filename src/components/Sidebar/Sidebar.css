@@ -1,9 +1,10 @@
 .sidebar{
     min-height: 100vh;
+    max-width: 40vh;
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #f0f4f9;
+    background-color: #e0e2d1;
     padding: 25px 15px;
 }
 
@@ -23,8 +24,8 @@
     align-items: center;
     gap: 10px;
     padding: 10px 15px;
-    background-color: #e6eaf1;
-    border-radius: 50px;
+    background-color: #ffffff;
+    border-radius: 5px;
     font-size: 14px;
     color: grey;
     cursor: pointer;
@@ -43,13 +44,20 @@
 .sidebar .recent-entry{
     display: flex;
     align-items: start;
-    gap: 10px;
+    gap: 5px;
     padding: 10px;
-    padding-right: 10px;
-    border-radius: 20px;
+    /* padding-right: 10px; */
+    border-radius: 5px;
     color: #282828;
     cursor: pointer;
     justify-content: space-between;
+}
+
+.sidebar .recent-entry p{
+    width: 22vh;
+    white-space: nowrap;      
+  overflow: hidden;         
+  /* text-overflow: ellipsis;  */
 }
 
 .sidebar .recent-entry div{
@@ -61,9 +69,8 @@
     justify-content: space-between;
 }
 
-
 .sidebar .recent-entry:hover{
-    background-color: #e2e6eb;
+    background-color: #ffffff;
 }
 
 .sidebar .bottom{
@@ -81,10 +88,11 @@
     background-color: transparent;
     color: black;
     border: none;
+    align-items: bottom;
     padding: 5px 10px;
     cursor: pointer;
     font-size: 14px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     border-radius: 5px;
   }
   

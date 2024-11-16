@@ -6,11 +6,17 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Sidebar = () => {
   const [extended, setExtended] = useState(false);
-  const { onSent, prevPrompts, setRecentPrompt, newChat } = useContext(Context);
+  const { onSent, prevPrompts, setRecentPrompt, newChat, setPrevPrompts } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
     await onSent(prompt);
+  };
+
+  const deletePrompt = (index) => {
+    const updatedPrompts = prevPrompts.filter((_, i) => i !== index);
+    setPrevPrompts(updatedPrompts);
+    localStorage.setItem("prevPrompts", JSON.stringify(updatedPrompts));
   };
 
   return (
@@ -38,10 +44,10 @@ const Sidebar = () => {
                 >
                   <div >
                     <img src={assets.message_icon} alt="Prompt" />
-                    <p>{item.slice(0, 28)} ...</p>
+                    <p>{item}</p>
                   </div>
 
-                  <button onClick={() => {}} className="delete-button">
+                  <button onClick={() => deletePrompt(index)} className="delete-button">
                     <RiDeleteBin6Line />
                   </button>
                 </div>
