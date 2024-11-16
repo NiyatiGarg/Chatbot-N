@@ -91,7 +91,7 @@ function Main() {
               type="text"
               placeholder="Enter a prompt here"
               onKeyDown={(e) => {
-                if (e.key === "Enter"|| e.key === " ") {
+                if (e.key === "Enter") {
                   e.preventDefault();  // Prevent form submission (if it's inside a form)
                   handleSend();        // Call handleSend on Enter key press
                 }
