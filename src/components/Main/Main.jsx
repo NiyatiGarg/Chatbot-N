@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import "./Main.css";
 
 import { LuMessagesSquare } from "react-icons/lu";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import userIcon from "../../assets/user_icon.png";
 import compassIcon from "../../assets/compass_icon.png";
@@ -23,11 +25,12 @@ function Main() {
     resultData,
     setInput,
     input,
+    conversationHistory,
   } = useContext(Context);
 
   const handleSend = () => {
     if (input.trim()) {
-      onSent(input); // Pass the input to the onSent function
+      onSent(input);
     }
   };
 
@@ -38,7 +41,7 @@ function Main() {
         <img src={userIcon} alt="" />
       </div>
       <div className="main-container">
-        {!showResult ?
+        {!showResult ? (
           <>
             <div className="greet">
               <p>
@@ -65,14 +68,12 @@ function Main() {
               </div>
             </div>
           </>
-        : 
+        ) : (
           <div className="result">
             <div className="result-title">
-              {/* <img src={userIcon} alt="" /> */}
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
-              
               <img src={botIcon} alt="" />
               {loading ? (
                 <div className="loader ">
@@ -81,11 +82,22 @@ function Main() {
                   <hr />
                 </div>
               ) : (
-                <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
+                <div
+                  className="response-content">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {resultData}
+                </ReactMarkdown>
+                </div>
+                // <div
+                //   className="response-content"
+                //   dangerouslySetInnerHTML={{
+                //     __html: sanitizeAndFormatHTML(resultData),
+                //   }}
+                // />
               )}
             </div>
           </div>
-        }
+        )}
 
         <div className="main-bottom">
           <div className="search-box">
@@ -96,8 +108,8 @@ function Main() {
               placeholder="Enter a prompt here"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault();  // Prevent form submission (if it's inside a form)
-                  handleSend();        // Call handleSend on Enter key press
+                  e.preventDefault(); // Prevent form submission (if it's inside a form)
+                  handleSend(); // Call handleSend on Enter key press
                 }
               }}
             />

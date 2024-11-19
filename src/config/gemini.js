@@ -9,7 +9,7 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
   });
   
   const generationConfig = {
-    temperature: 1,
+    temperature: 0.7,
     topP: 0.95,
     topK: 40,
     maxOutputTokens: 8192,

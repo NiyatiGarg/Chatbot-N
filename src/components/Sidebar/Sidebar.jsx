@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState , useEffect} from "react";
 import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
@@ -6,17 +6,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Sidebar = () => {
   const [extended, setExtended] = useState(false);
-  const { onSent, prevPrompts, setRecentPrompt, newChat, setPrevPrompts } = useContext(Context);
+  const { onSent, prevPrompts, setRecentPrompt, newChat, deletePrompt, setPrevPrompts } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
     await onSent(prompt);
-  };
-
-  const deletePrompt = (index) => {
-    const updatedPrompts = prevPrompts.filter((_, i) => i !== index);
-    setPrevPrompts(updatedPrompts);
-    localStorage.setItem("prevPrompts", JSON.stringify(updatedPrompts));
   };
 
   return (
@@ -39,17 +33,25 @@ const Sidebar = () => {
               return (
                 <div
                   key={index}
-                  onClick={() => loadPrompt(item)}
+                  onClick={() => {loadPrompt(item)
+                    console.log(prevPrompts, 'array that is curently on screen')}
+                  }
                   className="recent-entry"
                 >
-                  <div >
+                  <div key={index}>
                     <img src={assets.message_icon} alt="Prompt" />
                     <p>{item}</p>
                   </div>
 
-                  <button onClick={() => deletePrompt(index)} className="delete-button">
-                    <RiDeleteBin6Line />
-                  </button>
+                  <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering `loadPrompt`
+                    deletePrompt(index);
+                  }}
+                  className="delete-button"
+                >
+                  <RiDeleteBin6Line />
+                </button>
                 </div>
               );
             })}
