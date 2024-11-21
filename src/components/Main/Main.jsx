@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import "./Main.css";
+// import { Tooltip } from "react-tooltip";
 
 import { LuMessagesSquare } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
@@ -11,10 +12,15 @@ import bulbIcon from "../../assets/bulb_icon.png";
 import messageIcon from "../../assets/message_icon.png";
 import codeIcon from "../../assets/code_icon.png";
 import galleryIcon from "../../assets/gallery_icon.png";
-import mic from "../../assets/mic_icon.png";
 import send from "../../assets/send_icon.png";
 import { Context } from "../../context/Context";
 import botIcon from "../../assets/chat_bot_icon.png";
+
+import { RiFileCopyLine } from "react-icons/ri";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import MicFeature from '../../components/Mic';
 
 function Main() {
   const {
@@ -32,6 +38,19 @@ function Main() {
     if (input.trim()) {
       onSent(input);
     }
+  };
+
+  const copyResponse = () => {
+    navigator.clipboard.writeText(resultData);
+    toast.success("Response copied to clipboard!", {
+      position: "top-right",  // position can be customized
+      autoClose: 2000,        // duration the toast stays (in milliseconds)
+      hideProgressBar: true,  // hides progress bar (optional)
+      closeOnClick: true,     // closes the toast when clicked (optional)
+      pauseOnHover: false,    // prevents pause on hover (optional)
+      draggable: false,       // disables dragging the toast (optional)
+      progress: undefined,    // can be used to control progress bar (optional)
+    });
   };
 
   return (
@@ -84,16 +103,34 @@ function Main() {
               ) : (
                 <div
                   className="response-content">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    
+                    <pre
+                    style={{
+                      whiteSpace: "pre-wrap",
+                      wordWrap: "break-word",
+                      background: "#f8f9fa",
+                      padding: "1rem",
+                      cursor: "text",
+                      color: 'black',
+                      display: 'flex',
+                    }}
+                  >
+                   
+                    <ReactMarkdown className='formatted-response' remarkPlugins={[remarkGfm]}>
                   {resultData}
                 </ReactMarkdown>
+                <div className="response-header ">
+                    <button
+                    title="copy response"
+                      onClick={copyResponse}
+                      className="copy-button"
+                    >
+                      <RiFileCopyLine size={20} /> 
+                    </button>
+                    <ToastContainer />
+                  </div>
+                  </pre>
                 </div>
-                // <div
-                //   className="response-content"
-                //   dangerouslySetInnerHTML={{
-                //     __html: sanitizeAndFormatHTML(resultData),
-                //   }}
-                // />
               )}
             </div>
           </div>
@@ -108,14 +145,14 @@ function Main() {
               placeholder="Enter a prompt here"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault(); // Prevent form submission (if it's inside a form)
-                  handleSend(); // Call handleSend on Enter key press
+                  e.preventDefault(); 
+                  handleSend();
                 }
               }}
             />
             <div>
               <img src={galleryIcon} alt="" />
-              <img src={mic} alt="" />
+              <MicFeature handleSendFunction={handleSend}/>
               <img onClick={handleSend} src={send} alt="" />
             </div>
           </div>

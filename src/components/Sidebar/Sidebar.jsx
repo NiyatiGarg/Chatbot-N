@@ -45,7 +45,7 @@ const Sidebar = () => {
 
                   <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering `loadPrompt`
+                    e.stopPropagation(); 
                     deletePrompt(index);
                   }}
                   className="delete-button"
