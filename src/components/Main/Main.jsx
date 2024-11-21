@@ -17,10 +17,10 @@ import { Context } from "../../context/Context";
 import botIcon from "../../assets/chat_bot_icon.png";
 
 import { RiFileCopyLine } from "react-icons/ri";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import MicFeature from '../../components/Mic';
+import MicFeature from "../../components/Mic";
 
 function Main() {
   const {
@@ -42,14 +42,14 @@ function Main() {
 
   const copyResponse = () => {
     navigator.clipboard.writeText(resultData);
-    toast.success("Response copied to clipboard!", {
-      position: "top-right",  // position can be customized
-      autoClose: 2000,        // duration the toast stays (in milliseconds)
-      hideProgressBar: true,  // hides progress bar (optional)
-      closeOnClick: true,     // closes the toast when clicked (optional)
-      pauseOnHover: false,    // prevents pause on hover (optional)
-      draggable: false,       // disables dragging the toast (optional)
-      progress: undefined,    // can be used to control progress bar (optional)
+    toast.success("Copied to clipboard!", {
+      position: "top-right", // position can be customized
+      autoClose: 2000, // duration the toast stays (in milliseconds)
+      hideProgressBar: true, // hides progress bar (optional)
+      closeOnClick: true, // closes the toast when clicked (optional)
+      pauseOnHover: false, // prevents pause on hover (optional)
+      draggable: false, // disables dragging the toast (optional)
+      progress: undefined, // can be used to control progress bar (optional)
     });
   };
 
@@ -62,30 +62,38 @@ function Main() {
       <div className="main-container">
         {!showResult ? (
           <>
-            <div className="greet">
-              <p>
-                <span>Hello</span>
-              </p>
-              <p>How can i help you today? </p>
-            </div>
-            <div className="cards">
-              <div className="card">
-                <p>Suggest beautiful places to see on an upcoming road trip.</p>
-                <img src={compassIcon} alt="" />
-              </div>
-              <div className="card">
-                <p>Briefly summarize this concept: Urban planning.</p>
-                <img src={bulbIcon} alt="" />
-              </div>
-              <div className="card">
-                <p>Brainstorm team bonding activities for our work retreat.</p>
-                <img src={messageIcon} alt="" />
-              </div>
-              <div className="card">
-                <p>Improve the readability of the following code.</p>
-                <img src={codeIcon} alt="" />
-              </div>
-            </div>
+            {!input == "" ? null : (
+              <>
+                <div className="greet">
+                  <p>
+                    <span>Hello</span>
+                  </p>
+                  <p>How can i help you today? </p>
+                </div>
+                <div className="cards">
+                  <div className="card">
+                    <p>
+                      Suggest beautiful places to see on an upcoming road trip.
+                    </p>
+                    <img src={compassIcon} alt="" />
+                  </div>
+                  <div className="card">
+                    <p>Briefly summarize this concept: Urban planning.</p>
+                    <img src={bulbIcon} alt="" />
+                  </div>
+                  <div className="card">
+                    <p>
+                      Brainstorm team bonding activities for our work retreat.
+                    </p>
+                    <img src={messageIcon} alt="" />
+                  </div>
+                  <div className="card">
+                    <p>Improve the readability of the following code.</p>
+                    <img src={codeIcon} alt="" />
+                  </div>
+                </div>
+              </>
+            )}
           </>
         ) : (
           <div className="result">
@@ -101,36 +109,23 @@ function Main() {
                   <hr />
                 </div>
               ) : (
-                <div
-                  className="response-content">
-                    
-                    <pre
-                    style={{
-                      whiteSpace: "pre-wrap",
-                      wordWrap: "break-word",
-                      background: "#f8f9fa",
-                      padding: "1rem",
-                      cursor: "text",
-                      color: 'black',
-                      display: 'flex',
-                    }}
-                  >
-                   
-                    <ReactMarkdown className='formatted-response' remarkPlugins={[remarkGfm]}>
-                  {resultData}
-                </ReactMarkdown>
-                <div className="response-header ">
+                <>
+                  <div className="response-content">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {resultData}
+                    </ReactMarkdown>
+                  </div>
+                  <div className="response-header ">
                     <button
-                    title="copy response"
+                      title="copy"
                       onClick={copyResponse}
                       className="copy-button"
                     >
-                      <RiFileCopyLine size={20} /> 
+                      <RiFileCopyLine size={20} />
                     </button>
                     <ToastContainer />
                   </div>
-                  </pre>
-                </div>
+                </>
               )}
             </div>
           </div>
@@ -138,21 +133,28 @@ function Main() {
 
         <div className="main-bottom">
           <div className="search-box">
-            <input
+            <textarea
               onChange={(e) => setInput(e.target.value)}
               value={input}
               type="text"
               placeholder="Enter a prompt here"
+              rows={1}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault(); 
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
                   handleSend();
                 }
+              }}
+              onInput={(e) => {
+                // Dynamically adjust height
+                e.target.style.height = "auto"; // Reset height to calculate correctly
+                e.target.style.height = `${e.target.scrollHeight}px`; // Set height to match content
+                e.target.style.maxHeight = "30vh";
               }}
             />
             <div>
               <img src={galleryIcon} alt="" />
-              <MicFeature handleSendFunction={handleSend}/>
+              <MicFeature handleSendFunction={handleSend} />
               <img onClick={handleSend} src={send} alt="" />
             </div>
           </div>

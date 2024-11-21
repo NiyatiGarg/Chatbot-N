@@ -34,6 +34,7 @@ const ContextProvider = (props) => {
     setLoading(false);
     console.log(loading);
     setShowResult(false);
+    setInput("");
     console.log(showResult);
   }
 
