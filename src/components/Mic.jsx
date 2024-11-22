@@ -3,8 +3,8 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 
 import { Context } from "../context/Context";
 
-// import mic from "../assets/mic_icon.png";
 import { LuMic } from "react-icons/lu";
+import { RxReset } from "react-icons/rx";
 
 const MicFeature = ({ handleSendFunction }) => {
   const [transcriptData, setTranscriptData] = useState("");
@@ -48,15 +48,16 @@ const MicFeature = ({ handleSendFunction }) => {
     if (transcriptData) {
       setInput(transcriptData); // Set the input in real-time as you speak
     }
-  }, [transcriptData, setInput]);
+  }, [transcriptData, input]);
 
 
   return (
     <div>
-     <div onClick={handleStartStop} style={{color: listening ? "green" : "grey" , fontSize: '1.5rem'}}>
+     {input &&  <div onClick={handleReset} style={{ cursor: "pointer", fontSize: '1.5rem', color: '#4C5051',  }}> <RxReset /></div>}
+
+     <div onClick={handleStartStop} style={{color: listening ? "green" : "#4C5051" , fontSize: '1.5rem'}}>
       <LuMic />
       </div>
-      {input &&  <div onClick={handleReset} style={{ cursor: "pointer" }}>🔄</div>}
      
     </div>
   );

@@ -133,7 +133,10 @@ function Main() {
         )}
 
         <div className="main-bottom">
+          
           <div className="search-box">
+          <img src={galleryIcon} alt="" />
+
             <textarea
               onChange={(e) => setInput(e.target.value)}
               value={input}
@@ -154,7 +157,6 @@ function Main() {
               }}
             />
             <div>
-              <img src={galleryIcon} alt="" />
               <MicFeature handleSendFunction={handleSend} />
               {input && 
               <img onClick={handleSend} src={send} alt="" />
