@@ -14,7 +14,7 @@ import codeIcon from "../../assets/code_icon.png";
 import galleryIcon from "../../assets/gallery_icon.png";
 import send from "../../assets/send_icon.png";
 import { Context } from "../../context/Context";
-import botIcon from "../../assets/chat_bot_icon.png";
+import botIcon from "../../assets/robot.png";
 
 import { RiFileCopyLine } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
@@ -61,8 +61,8 @@ function Main() {
       </div>
       <div className="main-container">
         {!showResult ? (
-          <>
-            {!input == "" ? null : (
+          // <>
+          //   {!input == "" ? null : (
               <>
                 <div className="greet">
                   <p>
@@ -93,8 +93,8 @@ function Main() {
                   </div>
                 </div>
               </>
-            )}
-          </>
+          //   )}
+          // </>
         ) : (
           <div className="result">
             <div className="result-title">
@@ -110,6 +110,7 @@ function Main() {
                 </div>
               ) : (
                 <>
+                
                   <div className="response-content">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {resultData}
@@ -155,7 +156,10 @@ function Main() {
             <div>
               <img src={galleryIcon} alt="" />
               <MicFeature handleSendFunction={handleSend} />
+              {input && 
               <img onClick={handleSend} src={send} alt="" />
+              }
+              
             </div>
           </div>
           <p className="bottom-info">
