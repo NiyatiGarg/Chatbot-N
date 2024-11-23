@@ -1,12 +1,27 @@
-import React, { useContext, useState , useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoAddOutline } from "react-icons/io5";
+import { MdChatBubbleOutline } from "react-icons/md";
+import logoImg from "../../assets/AssistIQ.jpeg";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdHelpCircleOutline } from "react-icons/io";
+import { FiActivity } from "react-icons/fi";
+import { IoSettingsOutline } from "react-icons/io5";
+
 
 const Sidebar = () => {
   const [extended, setExtended] = useState(false);
-  const { onSent, prevPrompts, setRecentPrompt, newChat, deletePrompt, setPrevPrompts } = useContext(Context);
+  const {
+    onSent,
+    prevPrompts,
+    setRecentPrompt,
+    newChat,
+    deletePrompt,
+    setPrevPrompts,
+  } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
@@ -15,15 +30,37 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="top">
-        <img
-          onClick={() => setExtended((prev) => !prev)}
-          className="menu"
-          src={assets.menu_icon}
-          alt=""
-        />
-        <div onClick={() => newChat()} className="new-chat">
-          <img src={assets.plus_icon} alt="" />
+      <div className="top" style={{}}>
+        <div
+          style={{
+            display: extended ? null : "flex",
+            justifyContent: extended ? null : "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <GiHamburgerMenu
+            onClick={() => setExtended((prev) => !prev)}
+            className="menu-icon"
+          />
+        </div>
+        <div className="img-container">
+          <img
+            onClick={() => setExtended((prev) => !prev)}
+            className="img"
+            src={logoImg}
+            style={{
+              height: extended ? "9rem" : "3rem",
+              width: extended ? "9rem" : "3rem",
+            }}
+            alt=""
+          />
+        </div>
+        <div
+          onClick={() => newChat()}
+          className="new-chat"
+          style={{ display: extended? null: 'flex' , height: !extended &&'3rem'}}
+        >
+          <IoAddOutline className="icon" />
           {extended ? <p>New Chat </p> : null}
         </div>
         {extended ? (
@@ -33,25 +70,29 @@ const Sidebar = () => {
               return (
                 <div
                   key={index}
-                  onClick={() => {loadPrompt(item)
-                    console.log(prevPrompts, 'array that is curently on screen')}
-                  }
+                  onClick={() => {
+                    loadPrompt(item);
+                    console.log(
+                      prevPrompts,
+                      "array that is curently on screen"
+                    );
+                  }}
                   className="recent-entry"
                 >
-                  <div key={index}>
-                    <img src={assets.message_icon} alt="Prompt" />
+                  <div key={index} className="container">
+                    <MdChatBubbleOutline className="icon" />
                     <p>{item}</p>
                   </div>
 
                   <button
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    deletePrompt(index);
-                  }}
-                  className="delete-button"
-                >
-                  <RiDeleteBin6Line />
-                </button>
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deletePrompt(index);
+                    }}
+                    className="delete-button"
+                  >
+                    <RiDeleteBin6Line />
+                  </button>
                 </div>
               );
             })}
@@ -60,15 +101,15 @@ const Sidebar = () => {
       </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">
-          <img src={assets.question_icon} alt="" />
+        <IoMdHelpCircleOutline />
           {extended ? <p>Help</p> : null}
         </div>
         <div className="bottom-item recent-entry">
-          <img src={assets.history_icon} alt="" />
+        <FiActivity />
           {extended ? <p>Activity</p> : null}
         </div>
         <div className="bottom-item recent-entry">
-          <img src={assets.setting_icon} alt="" />
+        <IoSettingsOutline />
           {extended ? <p>Settings</p> : null}
         </div>
       </div>

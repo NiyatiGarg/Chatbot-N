@@ -4,32 +4,51 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #e0e2d1;
+    background-color: #2e280f;
     padding: 25px 15px;
+}
+
+.sidebar .img-container{
+    display: flex;
+    justify-content: center;
+    /* width: 100%; */
+}
+
+.sidebar .img-container .img{
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+   /* height: 9rem;
+   width: 9rem; */
+   border-radius: 50%;
+}
+
+.sidebar .top .menu-icon{
+    color: lightgray;
+    font-size: 2rem;
 }
 
 .sidebar img{
     width: 20px;
 }
 
-.sidebar .menu{
-    display: block;
-    margin-left: 10px;
-    cursor: pointer;
-}
 
 .sidebar .new-chat{
-    margin-top: 50px;
+    margin-top: 30px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 15px;
-    background-color: #ffffff;
+    padding: 7px;
+    background-color:lightgray;
     border-radius: 5px;
     font-size: 14px;
-    color: grey;
+    color: black;
     cursor: pointer;
 } 
+.sidebar .new-chat .icon{
+    color: black;
+    font-size: 2rem;
+}
 
 .sidebar .recent{
     display: flex;
@@ -39,25 +58,35 @@
 .sidebar .recent-title{
     margin-top: 30px;
     margin-bottom: 20px;
+    color: white;
 }
 
 .sidebar .recent-entry{
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 5px;
     padding: 10px;
-    /* padding-right: 10px; */
     border-radius: 5px;
-    color: #282828;
+    color: lightgrey;
     cursor: pointer;
     justify-content: space-between;
 }
 
+.sidebar .recent-entry .container{
+    display: flex;
+   align-items: flex-end;
+}
+
+.sidebar .recent-entry .icon{
+    color: white;
+}
+
 .sidebar .recent-entry p{
     width: 22vh;
+    color: lightgrey;
     white-space: nowrap;      
-  overflow: hidden;         
-  /* text-overflow: ellipsis;  */
+  overflow: hidden;  
+  padding-top: 0      
 }
 
 .sidebar .recent-entry div{
@@ -70,7 +99,7 @@
 }
 
 .sidebar .recent-entry:hover{
-    background-color: #ffffff;
+    background-color: #ffffff57;
 }
 
 .sidebar .bottom{
@@ -86,18 +115,17 @@
 
 .delete-button {
     background-color: transparent;
-    color: black;
+    color: white;
     border: none;
     align-items: bottom;
-    padding: 5px 10px;
+    display: flex;
+    justify-content: bottom;
+    /* padding: 5px 10px; */
     cursor: pointer;
     font-size: 14px;
     /* margin-left: 10px; */
     border-radius: 5px;
   }
   
-  .delete-button:hover {
-    color: #ff4d4d;
-  }
 
 

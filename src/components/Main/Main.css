@@ -1,9 +1,19 @@
 .main {
     flex: 1;
     min-height: 100vh;
-    padding-bottom: 15vh;
+    border: 1rem solid #2E280F;
     position: relative;
+    background: #2E280F;
 
+}
+
+.main .parent-container {
+    height: 100%;
+    position: relative;
+    border: 1rem solid white;
+    border-radius: 10px;
+    padding-bottom: 15vh;
+    background-color: white;
 }
 
 .main .nav {
@@ -16,14 +26,14 @@
 }
 
 .main .nav img {
-    width: 20px;
+    width: 60px;
     border-radius: 50%;
 
 }
 
 .main-container {
-    max-width: 1000px;
-    margin: auto;
+    /* max-width: 1000px; */
+    margin: 1rem;
 }
 
 .main .greet {
@@ -50,7 +60,7 @@
 .main .card {
     height: 150px;
     padding: 15px;
-    background-color: #f1f3e5;
+    background-color: #f6f2e2;
     border-radius: 5px;
     position: relative;
     cursor: pointer;
@@ -92,7 +102,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    background-color: #e0e2d1;
+    background-color: #f6f2e2;
     padding: 10px 20px;
     border-radius: 5px;
 }
@@ -125,11 +135,13 @@
 }
 
 .result {
-    padding: 0px 5%;
-    max-height: 70vh;
+    padding: 0px 20px;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     overflow-x: scroll;
+    max-height: 70vh;
+    overflow-y: auto
 }
 
 .result::-webkit-scrollbar {
@@ -137,7 +149,7 @@
 }
 
 .result-title {
-    margin: 40px 0px;
+    margin: 30px 0px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -145,35 +157,37 @@
 }
 
 .result-title p {
-    position: relative; /* Enables positioning for the pseudo-element */
+    position: relative;
+    /* Enables positioning for the pseudo-element */
     border-radius: 10px;
     border-top-right-radius: 0;
     padding: 10px 20px;
-    background-color: #e0e2d1;
+    background-color: #2E280F;
+    color: lightgray
 }
 
 .result-title p::after {
     content: "";
     position: absolute;
-    top: -5px; /* Centers the bubble vertically */
-    right: -12px; /* Adjusts the distance from the text box */
-    width: 15px; /* Adjust size */
-    height: 20px; /* Triangle height */
-    background-color: #e0e2d1; /* Matches the text box background */
+    top: -5px;
+    /* Centers the bubble vertically */
+    right: -12px;
+    /* Adjusts the distance from the text box */
+    width: 15px;
+    /* Adjust size */
+    height: 20px;
+    /* Triangle height */
+    background-color: #2E280F;
+    /* Matches the text box background */
     clip-path: polygon(0% 80%, 100% 20%, 0% 30%);
     transform: rotate(365deg);
 }
-    
+
 .result img {
     width: 40px;
     border-radius: 5px;
 }
 
-.result-data {
-    display: flex;
-    align-items: start;
-    gap: 20px;
-}
 
 .loader {
     width: 100%;
@@ -186,7 +200,7 @@
     border-radius: 5px;
     border: none;
     background-color: #f6f7f8;
-    background: linear-gradient(to right, #E0E2D1, #ffffff, #E0E2D1);
+    background: linear-gradient(to right, #f6f2e2, #ffffff, #f6f2e2);
     background-size: 800px 50px;
     height: 20px;
     animation: loader 3s infinite linear;
@@ -202,19 +216,23 @@
     }
 }
 
+
+.result-data {
+    display: flex;
+    align-items: start;
+    gap: 20px;
+    
+}
+
 .result-data p {
     font-weight: 300;
     line-height: 1.8;
-    /* width: 50vw; */
-
 }
 
 .response-header {
     display: flex;
-    justify-content: flex-end;
-    align-items: top;
-    padding: 1rem;
-    justify-content: center;
+    flex: 1;
+    top: 0;
 }
 
 .response-header button {
@@ -224,34 +242,47 @@
     background-color: transparent;
 }
 
-.response-content {
+.response-container {
     position: relative;
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    background-color: #E4EAEF;
-    padding: 0.5rem 2rem;
+    background-color: #f6f2e2;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    gap: 1rem;
     max-width: 60vw;
     box-sizing: border-box;
     word-wrap: break-word;
     border-radius: 10px;
+    align-items: flex-start;
     border-top-left-radius: 0;
+    display: flex;
+
 }
 
-.response-content::after {
+.response-container::after {
     content: "";
     position: absolute;
-    top: -10px; 
-    left: -15px; 
-    width: 20px; 
+    top: -10px;
+    left: -15px;
+    width: 20px;
     height: 40px;
-    background-color: #E4EAEF; 
+    background-color: #f6f2e2;
     clip-path: polygon(0% 80%, 100% 20%, 0% 30%);
-    border-radius: 5px; 
+    border-radius: 5px;
     transform: rotate(90deg);
 }
+
+.response-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+
 
 .response-content pre {
     background-color: rgb(7, 3, 3);
@@ -259,7 +290,7 @@
     justify-content: space-between;
     padding: 1rem;
     margin-bottom: 2rem;
-    width: 45vw;
+    width: 49vw;
     overflow-x: scroll;
 
 }

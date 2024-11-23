@@ -34,7 +34,7 @@ const MicFeature = ({ handleSendFunction }) => {
 
   const handleReset = () => {
     resetTranscript();
-    setInput(""); // Clear the input when transcript is reset
+    setInput("");
   };
   
   useEffect(() => {
@@ -46,7 +46,7 @@ const MicFeature = ({ handleSendFunction }) => {
 
   useEffect(() => {
     if (transcriptData) {
-      setInput(transcriptData); // Set the input in real-time as you speak
+      setInput(transcriptData);
     }
   }, [transcriptData, input]);
 
@@ -54,7 +54,6 @@ const MicFeature = ({ handleSendFunction }) => {
   return (
     <div>
      {input &&  <div onClick={handleReset} style={{ cursor: "pointer", fontSize: '1.5rem', color: '#4C5051',  }}> <RxReset /></div>}
-
      <div onClick={handleStartStop} style={{color: listening ? "green" : "#4C5051" , fontSize: '1.5rem'}}>
       <LuMic />
       </div>
