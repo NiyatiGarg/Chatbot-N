@@ -206,8 +206,8 @@ function Main() {
         </div>
       </div>
       </div>
-      <div classname='ad-container'>
-<p style={{display: 'flex', background: 'grey'}} > helloo this is the ad container</p>
+      <div className='ad-container' >
+
       </div>
       </div>
     </div>
