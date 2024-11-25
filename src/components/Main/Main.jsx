@@ -83,8 +83,8 @@ function Main() {
       <div className="parent-container">
       <div className="chat-container">
       <div className="nav">
-        <p>AssistIQ</p>
-        {/* <img src={userIcon} alt="" /> */}
+        <p>ChatBot N</p>
+        <img src={userIcon} alt="" />
       </div>
       <div className="main-container">
         {!showResult ? (
@@ -118,7 +118,7 @@ function Main() {
           <div className="result">
             <div className="result-title">
               <p>{recentPrompt}</p>
-              <img src={userIcon} alt="" />
+              {/* <img src={userIcon} alt="" /> */}
             </div>
             <div className="result-data">
               <img src={botIcon} alt="" />
@@ -200,14 +200,11 @@ function Main() {
             </div>
           </div>
           <p className="bottom-info">
-            AssistIQ may display inaccurate info , including about people, so
+            ChatBot N may display inaccurate info , including about people, so
             double-check its responses.
           </p>
         </div>
       </div>
-      </div>
-      <div className='ad-container' >
-
       </div>
       </div>
     </div>

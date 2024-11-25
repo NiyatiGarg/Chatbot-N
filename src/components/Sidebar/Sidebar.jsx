@@ -5,7 +5,7 @@ import { Context } from "../../context/Context";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoAddOutline } from "react-icons/io5";
 import { MdChatBubbleOutline } from "react-icons/md";
-import logoImg from "../../assets/AssistIQ.jpeg";
+import logoImg from "../../assets/Chatbot N.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { FiActivity } from "react-icons/fi";
@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top" style={{}}>
-        {/* <div
+        <div
           style={{
             display: extended ? null : "flex",
             justifyContent: extended ? null : "center",
@@ -42,13 +42,14 @@ const Sidebar = () => {
             onClick={() => setExtended((prev) => !prev)}
             className="menu-icon"
           />
-        </div> */}
+        </div>
         <div className="img-container">
           <img
-            onClick={() => setExtended((prev) => !prev)}
+            // onClick={() => setExtended((prev) => !prev)}
             className="img"
             src={logoImg}
             style={{
+              // border: '1rem solid white',
               height: extended ? "9rem" : "3rem",
               width: extended ? "9rem" : "3rem",
             }}
