@@ -1,7 +1,7 @@
 // Importing the module using ES6 import syntax
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
   
-  const apiKey = "AIzaSyBMioXH82AG7f7Gt2OmV6eLf_FeK3TFcOo";
+  const apiKey = "AIzaSyCCJX-p5HVTOfNTBqT5nevVgrDTajLvPvc";
   const genAI = new GoogleGenerativeAI(apiKey);
   
   const model = genAI.getGenerativeModel({

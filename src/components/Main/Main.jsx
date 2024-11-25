@@ -81,6 +81,7 @@ function Main() {
   return (
     <div className="main">
       <div className="parent-container">
+      <div className="chat-container">
       <div className="nav">
         <p>AssistIQ</p>
         {/* <img src={userIcon} alt="" /> */}
@@ -205,7 +206,10 @@ function Main() {
         </div>
       </div>
       </div>
-     
+      <div classname='ad-container'>
+<p style={{display: 'flex', background: 'grey'}} > helloo this is the ad container</p>
+      </div>
+      </div>
     </div>
   );
 }

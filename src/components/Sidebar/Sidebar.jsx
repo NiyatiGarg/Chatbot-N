@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top" style={{}}>
-        <div
+        {/* <div
           style={{
             display: extended ? null : "flex",
             justifyContent: extended ? null : "center",
@@ -42,7 +42,7 @@ const Sidebar = () => {
             onClick={() => setExtended((prev) => !prev)}
             className="menu-icon"
           />
-        </div>
+        </div> */}
         <div className="img-container">
           <img
             onClick={() => setExtended((prev) => !prev)}
