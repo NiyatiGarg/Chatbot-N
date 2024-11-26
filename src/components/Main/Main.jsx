@@ -87,9 +87,11 @@ function Main() {
   };
 
   return (
+
     <>
       <Sidebar />
       <div className="main">
+        
         <div className="parent-container">
           <div className="chat-container">
             <div style={{disply: 'flex', position: 'relative', }}>
