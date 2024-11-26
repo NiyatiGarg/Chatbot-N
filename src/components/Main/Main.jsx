@@ -118,7 +118,6 @@ function Main() {
           <div className="result">
             <div className="result-title">
               <p>{recentPrompt}</p>
-              {/* <img src={userIcon} alt="" /> */}
             </div>
             <div className="result-data">
               <img src={botIcon} alt="" />
@@ -170,7 +169,7 @@ function Main() {
                   const file = e.target.files[0];
                   if (file) {
                     console.log("File selected:", file);
-                    handleFileUpload(file); // Call the file handler
+                    handleFileUpload(file); 
                   }
                 }}
               />
@@ -188,9 +187,8 @@ function Main() {
                 }
               }}
               onInput={(e) => {
-                // Dynamically adjust height
-                e.target.style.height = "auto"; // Reset height to calculate correctly
-                e.target.style.height = `${e.target.scrollHeight}px`; // Set height to match content
+                e.target.style.height = "auto"; 
+                e.target.style.height = `${e.target.scrollHeight}px`; 
                 e.target.style.maxHeight = "30vh";
               }}
             />
