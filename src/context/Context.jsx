@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import run from "../config/Gemini";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 export const Context = createContext();
 
@@ -10,8 +12,46 @@ const ContextProvider = (props) => {
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState(localStorage.getItem("resultData")||"");
-    const [conversationHistory, setConversationHistory] = useState([]);
+    const [user, setUser] = useState(null); // Authentication state
+    const [authLoading, setAuthLoading] = useState(true); // Loading for auth state
+  
+// Firebase Authentication: Monitor Auth State
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+    setAuthLoading(false); // Stop auth loading
+  });
+  return () => unsubscribe();
+}, []);
 
+// Firebase Authentication: Sign In
+const login = async (email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    console.error("Login Error:", error.message);
+  }
+};
+
+// Firebase Authentication: Sign Up
+const register = async (email, password) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    console.error("Registration Error:", error.message);
+  }
+};
+
+// Firebase Authentication: Logout
+const logout = async () => {
+  try {
+    await signOut(auth);
+    setUser(null);
+  } catch (error) {
+    console.error("Logout Error:", error.message);
+  }
+};
+    
   const delayPara = (index, nextWord) => {
     setTimeout(function () {
       setResultData((prev) => prev + nextWord);
@@ -88,6 +128,11 @@ useEffect(() => {
 }, [resultData]);
 
   const contextValue = {
+    user,
+    login,
+    register,
+    logout,
+    authLoading,
     prevPrompts,
     setPrevPrompts,
     onSent,
@@ -102,7 +147,9 @@ useEffect(() => {
     deletePrompt
   };
   return (
-    <Context.Provider value={contextValue}>{props.children}</Context.Provider>
+    <Context.Provider value={contextValue}>
+      {authLoading ? <p>Loading authentication...</p> : props.children}
+      </Context.Provider>
   );
 };
 export default ContextProvider;

@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Main.css";
 // import { Tooltip } from "react-tooltip";
+
+import Sidebar from "../Sidebar/Sidebar";
 
 import { LuMessagesSquare } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
@@ -21,6 +23,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import MicFeature from "../../components/Mic";
+import LoginSignupModal from "../modals/loginSignupModal";
 
 function Main() {
   const {
@@ -34,6 +37,12 @@ function Main() {
     conversationHistory,
   } = useContext(Context);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   const handleSend = () => {
     if (input.trim()) {
       onSent(input);
@@ -43,13 +52,13 @@ function Main() {
   const copyResponse = () => {
     navigator.clipboard.writeText(resultData);
     toast.success("Copied to clipboard!", {
-      position: "top-right", 
-      autoClose: 2000, 
+      position: "top-right",
+      autoClose: 2000,
       hideProgressBar: true,
       closeOnClick: true,
-      pauseOnHover: false, 
-      draggable: false, 
-      progress: undefined, 
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
     });
   };
 
@@ -77,135 +86,149 @@ function Main() {
     }
   };
 
-
   return (
-    <div className="main">
-      <div className="parent-container">
-      <div className="chat-container">
-      <div className="nav">
-        <p>ChatBot N</p>
-        <img src={userIcon} alt="" />
-      </div>
-      <div className="main-container">
-        {!showResult ? (
-          <>
-            <div className="greet">
-              <p>
-                <span>Hello</span>
-              </p>
-              <p>How can i help you today? </p>
-            </div>
-            <div className="cards">
-              <div className="card">
-                <p>Suggest beautiful places to see on an upcoming road trip.</p>
-                <img src={compassIcon} alt="" />
+    <>
+      <Sidebar />
+      <div className="main">
+        <div className="parent-container">
+          <div className="chat-container">
+            <div style={{disply: 'flex', position: 'relative', }}>
+              <div className="nav">
+                <p>ChatBot N</p>
+                <img src={userIcon} alt="" onClick={openModal} />
               </div>
-              <div className="card">
-                <p>Briefly summarize this concept: Urban planning.</p>
-                <img src={bulbIcon} alt="" />
-              </div>
-              <div className="card">
-                <p>Brainstorm team bonding activities for our work retreat.</p>
-                <img src={messageIcon} alt="" />
-              </div>
-              <div className="card">
-                <p>Improve the readability of the following code.</p>
-                <img src={codeIcon} alt="" />
+              <div style={{display: 'flex', justifyContent: 'flex-end', position: 'fixed', right: '2rem'}} className="p-0 m-0">
+              {isModalOpen && <LoginSignupModal />}
               </div>
             </div>
-          </>
-        ) : (
-          <div className="result">
-            <div className="result-title">
-              <p>{recentPrompt}</p>
-            </div>
-            <div className="result-data">
-              <img src={botIcon} alt="" />
-              {loading ? (
-                <div className="loader ">
-                  <hr />
-                  <hr />
-                  <hr />
-                </div>
-              ) : (
-                <div className="response-container">
-                  <div className="response-content">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {resultData}
-                    </ReactMarkdown>
+            <div className="main-container">
+              {!showResult ? (
+                <>
+                  <div className="greet">
+                    <p>
+                      <span>Hello</span>
+                    </p>
+                    <p>How can i help you today? </p>
                   </div>
-                  <div className="response-header ">
-                    <button
-                      title="copy"
-                      onClick={copyResponse}
-                      className="copy-button"
-                    >
-                      <RiFileCopyLine size={20} />
-                    </button>
-                    <ToastContainer />
+                  <div className="cards">
+                    <div className="card">
+                      <p>
+                        Suggest beautiful places to see on an upcoming road
+                        trip.
+                      </p>
+                      <img src={compassIcon} alt="" />
+                    </div>
+                    <div className="card">
+                      <p>Briefly summarize this concept: Urban planning.</p>
+                      <img src={bulbIcon} alt="" />
+                    </div>
+                    <div className="card">
+                      <p>
+                        Brainstorm team bonding activities for our work retreat.
+                      </p>
+                      <img src={messageIcon} alt="" />
+                    </div>
+                    <div className="card">
+                      <p>Improve the readability of the following code.</p>
+                      <img src={codeIcon} alt="" />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="result">
+                  <div className="result-title">
+                    <p>{recentPrompt}</p>
+                  </div>
+                  <div className="result-data">
+                    <img src={botIcon} alt="" />
+                    {loading ? (
+                      <div className="loader ">
+                        <hr />
+                        <hr />
+                        <hr />
+                      </div>
+                    ) : (
+                      <div className="response-container">
+                        <div className="response-content">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {resultData}
+                          </ReactMarkdown>
+                        </div>
+                        <div className="response-header ">
+                          <button
+                            title="copy"
+                            onClick={copyResponse}
+                            className="copy-button"
+                          >
+                            <RiFileCopyLine size={20} />
+                          </button>
+                          <ToastContainer />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        )}
 
-        <div className="main-bottom">
-          <div className="search-box">
-            <div style={{ position: "relative", display: "inline-block" }}>
-              <img src={galleryIcon} alt="Gallery Icon" />
-              <input
-                type="file"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
-                }}
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    console.log("File selected:", file);
-                    handleFileUpload(file); 
-                  }
-                }}
-              />
-            </div>
-            <textarea
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
-              type="text"
-              placeholder="Enter a prompt here"
-              rows={1}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              onInput={(e) => {
-                e.target.style.height = "auto"; 
-                e.target.style.height = `${e.target.scrollHeight}px`; 
-                e.target.style.maxHeight = "30vh";
-              }}
-            />
-            <div>
-              <MicFeature handleSendFunction={handleSend} />
-              {input && <img onClick={handleSend} src={send} alt="" />}
+              <div className="main-bottom">
+                <div className="search-box">
+                  <div
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
+                    <img src={galleryIcon} alt="Gallery Icon" />
+                    <input
+                      type="file"
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        opacity: 0,
+                        cursor: "pointer",
+                      }}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          console.log("File selected:", file);
+                          handleFileUpload(file);
+                        }
+                      }}
+                    />
+                  </div>
+                  <textarea
+                    onChange={(e) => setInput(e.target.value)}
+                    value={input}
+                    type="text"
+                    placeholder="Enter a prompt here"
+                    rows={1}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                      }
+                    }}
+                    onInput={(e) => {
+                      e.target.style.height = "auto";
+                      e.target.style.height = `${e.target.scrollHeight}px`;
+                      e.target.style.maxHeight = "30vh";
+                    }}
+                  />
+                  <div>
+                    <MicFeature handleSendFunction={handleSend} />
+                    {input && <img onClick={handleSend} src={send} alt="" />}
+                  </div>
+                </div>
+                <p className="bottom-info">
+                  ChatBot N may display inaccurate info , including about
+                  people, so double-check its responses.
+                </p>
+              </div>
             </div>
           </div>
-          <p className="bottom-info">
-            ChatBot N may display inaccurate info , including about people, so
-            double-check its responses.
-          </p>
         </div>
       </div>
-      </div>
-      </div>
-    </div>
+    </>
   );
 }
 
