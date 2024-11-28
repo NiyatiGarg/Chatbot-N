@@ -35,6 +35,8 @@ function Main() {
     setInput,
     input,
     conversationHistory,
+    user,
+    logout
   } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,13 +93,13 @@ function Main() {
     <>
       <Sidebar />
       <div className="main">
-        
+
         <div className="parent-container">
           <div className="chat-container">
             <div style={{disply: 'flex', position: 'relative', }}>
               <div className="nav">
                 <p>ChatBot N</p>
-                <img src={userIcon} alt="" onClick={openModal} />
+               {user? <img src={user.photoURL || userIcon} alt="" onClick={openModal} /> : <p style={{background: 'grey', padding: '2rem', borderRadius: '50%'}} onClick={openModal}></p>}
               </div>
               <div style={{display: 'flex', justifyContent: 'flex-end', position: 'fixed', right: '2rem'}} className="p-0 m-0">
               {isModalOpen && <LoginSignupModal />}

@@ -15,10 +15,20 @@ const ContextProvider = (props) => {
     const [user, setUser] = useState(null); // Authentication state
     const [authLoading, setAuthLoading] = useState(true); // Loading for auth state
   
-// Firebase Authentication: Monitor Auth State
+// Monitor Auth State and Fetch User Details
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
+    if (currentUser) {
+      const { displayName, email, uid, photoURL } = currentUser;
+      setUser({
+        displayName,
+        email,
+        uid,
+        photoURL
+      });
+    } else {
+      setUser(null);
+    }
     setAuthLoading(false); // Stop auth loading
   });
   return () => unsubscribe();
