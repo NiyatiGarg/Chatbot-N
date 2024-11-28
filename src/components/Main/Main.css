@@ -305,7 +305,7 @@
 
 
 .response-content pre {
-    background-color: rgb(7, 3, 3);
+    background-color: #1E1E1E;
     color: rgb(255, 255, 255);
     justify-content: space-between;
     padding: 1rem;

@@ -7,6 +7,8 @@ import Sidebar from "../Sidebar/Sidebar";
 import { LuMessagesSquare } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'; 
 
 import userIcon from "../../assets/user_icon.png";
 import compassIcon from "../../assets/compass_icon.png";
@@ -88,6 +90,19 @@ function Main() {
     }
   };
 
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Code copied to clipboard!",{
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+  };
+
   return (
 
     <>
@@ -154,9 +169,42 @@ function Main() {
                     ) : (
                       <div className="response-container">
                         <div className="response-content">
-                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {resultData}
-                          </ReactMarkdown>
+                        <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          pre({ node, children, ...props }) {
+                            const codeText = children?.props?.children || "";
+                            const languageClass = children?.props?.className || "";
+                            const match = /language-(\w+)/.exec(languageClass);
+                            return (
+                              <div className="code-block">
+                                <pre {...props} style={{display: 'flex'}}>
+                                <SyntaxHighlighter
+                style={vscDarkPlus} // Replace `vs` with your preferred theme
+                language={match ? match[1] : 'text'}
+                PreTag="div"
+                {...props}
+              >
+                {codeText}
+              </SyntaxHighlighter>
+                                  {/* {codeText}{" "} */}
+                                  <div className="response-header ">
+                                    <button
+                                      title="copy"
+                                      className="copy-button"
+                                      onClick={() => handleCopy(codeText)}
+                                    >
+                                      <RiFileCopyLine size={20} />
+                                    </button>
+                                  </div>
+                                </pre>
+                              </div>
+                            );
+                          },
+                        }}
+                      >
+                        {resultData}
+                      </ReactMarkdown>
                         </div>
                         <div className="response-header ">
                           <button
