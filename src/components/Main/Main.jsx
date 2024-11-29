@@ -7,8 +7,8 @@ import Sidebar from "../Sidebar/Sidebar";
 import { LuMessagesSquare } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'; 
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import userIcon from "../../assets/user_icon.png";
 import compassIcon from "../../assets/compass_icon.png";
@@ -19,6 +19,7 @@ import galleryIcon from "../../assets/gallery_icon.png";
 import send from "../../assets/send_icon.png";
 import { Context } from "../../context/Context";
 import botIcon from "../../assets/ai-application.png";
+import newUser from "../../assets/new-user.png";
 
 import { RiFileCopyLine } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
@@ -38,7 +39,7 @@ function Main() {
     input,
     conversationHistory,
     user,
-    logout
+    logout,
   } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,7 +93,7 @@ function Main() {
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
-    toast.success("Code copied to clipboard!",{
+    toast.success("Code copied to clipboard!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: true,
@@ -104,20 +105,38 @@ function Main() {
   };
 
   return (
-
     <>
       <Sidebar />
       <div className="main">
-
         <div className="parent-container">
           <div className="chat-container">
-            <div style={{disply: 'flex', position: 'relative', }}>
+            <div style={{ disply: "flex", position: "relative" }}>
               <div className="nav">
                 <p>ChatBot N</p>
-               {user? <img src={user.photoURL || userIcon} alt="" onClick={openModal} /> : <p style={{background: 'grey', padding: '2rem', borderRadius: '50%'}} onClick={openModal}></p>}
+                {user ? (
+                  <img
+                    src={user.photoURL || userIcon}
+                    alt=""
+                    onClick={openModal}
+                  />
+                ) : (
+                  <img
+                  src={newUser}
+                  alt=""
+                  onClick={openModal}
+                />
+                )}
               </div>
-              <div style={{display: 'flex', justifyContent: 'flex-end', position: 'fixed', right: '2rem'}} className="p-0 m-0">
-              {isModalOpen && <LoginSignupModal />}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  position: "fixed",
+                  right: "2rem",
+                }}
+                className="p-0 m-0"
+              >
+                {isModalOpen && <LoginSignupModal />}
               </div>
             </div>
             <div className="main-container">
@@ -169,42 +188,46 @@ function Main() {
                     ) : (
                       <div className="response-container">
                         <div className="response-content">
-                        <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                          pre({ node, children, ...props }) {
-                            const codeText = children?.props?.children || "";
-                            const languageClass = children?.props?.className || "";
-                            const match = /language-(\w+)/.exec(languageClass);
-                            return (
-                              <div className="code-block">
-                                <pre {...props} style={{display: 'flex'}}>
-                                <SyntaxHighlighter
-                style={vscDarkPlus} // Replace `vs` with your preferred theme
-                language={match ? match[1] : 'text'}
-                PreTag="div"
-                {...props}
-              >
-                {codeText}
-              </SyntaxHighlighter>
-                                  {/* {codeText}{" "} */}
-                                  <div className="response-header ">
-                                    <button
-                                      title="copy"
-                                      className="copy-button"
-                                      onClick={() => handleCopy(codeText)}
-                                    >
-                                      <RiFileCopyLine size={20} />
-                                    </button>
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              pre({ node, children, ...props }) {
+                                const codeText =
+                                  children?.props?.children || "";
+                                const languageClass =
+                                  children?.props?.className || "";
+                                const match = /language-(\w+)/.exec(
+                                  languageClass
+                                );
+                                return (
+                                  <div className="code-block">
+                                    <pre {...props} style={{ display: "flex" }}>
+                                      <SyntaxHighlighter
+                                        style={vscDarkPlus} // Replace `vs` with your preferred theme
+                                        language={match ? match[1] : "text"}
+                                        PreTag="div"
+                                        {...props}
+                                      >
+                                        {codeText}
+                                      </SyntaxHighlighter>
+                                      {/* {codeText}{" "} */}
+                                      <div className="response-header ">
+                                        <button
+                                          title="copy"
+                                          className="copy-button"
+                                          onClick={() => handleCopy(codeText)}
+                                        >
+                                          <RiFileCopyLine size={20} />
+                                        </button>
+                                      </div>
+                                    </pre>
                                   </div>
-                                </pre>
-                              </div>
-                            );
-                          },
-                        }}
-                      >
-                        {resultData}
-                      </ReactMarkdown>
+                                );
+                              },
+                            }}
+                          >
+                            {resultData}
+                          </ReactMarkdown>
                         </div>
                         <div className="response-header ">
                           <button
