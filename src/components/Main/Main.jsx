@@ -329,10 +329,11 @@ function Main() {
                     {input && <img onClick={handleSend} src={send} alt="" />}
                   </div>
                 </div>
-                <p className="bottom-info">
+                {isSmallScreen? null : <p className="bottom-info">
                   ChatBot N may display inaccurate info , including about
                   people, so double-check its responses.
-                </p>
+                </p>}
+                
               </div>
             </div>
           </div>
