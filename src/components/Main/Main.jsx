@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState , useEffect} from "react";
 import "./Main.css";
 // import { Tooltip } from "react-tooltip";
 
 import Sidebar from "../Sidebar/Sidebar";
 
+import { assets } from "../../assets/assets";
 import { LuMessagesSquare } from "react-icons/lu";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -38,11 +39,14 @@ function Main() {
     setInput,
     input,
     conversationHistory,
+    extended,
+    setExtended,
     user,
     logout,
   } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(true);
 
   const openModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -104,14 +108,45 @@ function Main() {
     });
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 1024); // Set your breakpoint, e.g., 768px
+    };
+
+    // Call handleResize once to set initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <Sidebar />
+      {isSmallScreen ? (
+        extended ? (
+          <Sidebar />
+        ) : null
+      ) : (
+        !isSmallScreen && <Sidebar />
+      )}
       <div className="main">
         <div className="parent-container">
           <div className="chat-container">
             <div style={{ disply: "flex", position: "relative" }}>
               <div className="nav">
+              {extended ? null : (
+            <img
+              onClick={() => setExtended(!extended)}
+              className="menu-icon"
+              src={assets.menu_icon}
+              alt=""
+            />
+          )}
                 <p>ChatBot N</p>
                 {user ? (
                   <img

@@ -93,6 +93,10 @@
     margin: auto;
 }
 
+.menu-icon {
+    display: none;
+}
+
 .search-box {
     display: flex;
     align-items: center;
@@ -325,7 +329,12 @@
     .main-container {
         width: 80vw;
     }
-
+    .menu-icon {
+        display: block;
+        cursor: pointer;
+        height: 25px;
+        width: 20px !important;
+    }
     span {
         font-size: 2rem;
     }

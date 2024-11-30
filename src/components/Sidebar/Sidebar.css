@@ -6,6 +6,7 @@
     justify-content: space-between;
     background-color: #2e280f;
     padding: 25px 15px;
+    /* z-index: 9999; */
 }
 
 .sidebar .img-container{
@@ -22,8 +23,7 @@
    width: 9rem; */
    border-radius: 50%;
 }
-
-.sidebar .top .menu-icon{
+.sidebar .top .menu{
     color: lightgray;
     font-size: 2rem;
 }
@@ -133,5 +133,11 @@
     border-radius: 5px;
   }
   
-
+/* Media query for screens smaller than 768px */
+@media (max-width: 1024px) {
+    .sidebar{
+      position: absolute;
+      z-index: 9999;
+  }
+}
 

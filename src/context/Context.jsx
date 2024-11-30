@@ -14,6 +14,7 @@ const ContextProvider = (props) => {
     const [resultData, setResultData] = useState(localStorage.getItem("resultData")||"");
     const [user, setUser] = useState(null); // Authentication state
     const [authLoading, setAuthLoading] = useState(true); // Loading for auth state
+    const [extended, setExtended] = useState(false);
   
 // Monitor Auth State and Fetch User Details
 useEffect(() => {
@@ -154,7 +155,9 @@ useEffect(() => {
     input,
     setInput,
     newChat,
-    deletePrompt
+    deletePrompt,
+    extended,
+    setExtended
   };
   return (
     <Context.Provider value={contextValue}>

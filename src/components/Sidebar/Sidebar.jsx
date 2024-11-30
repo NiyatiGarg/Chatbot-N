@@ -13,7 +13,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 
 const Sidebar = () => {
-  const [extended, setExtended] = useState(false);
   const {
     onSent,
     prevPrompts,
@@ -21,6 +20,8 @@ const Sidebar = () => {
     newChat,
     deletePrompt,
     setPrevPrompts,
+    extended, 
+    setExtended
   } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
@@ -30,18 +31,9 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="top" style={{}}>
-        <div
-          style={{
-            display: extended ? null : "flex",
-            justifyContent: extended ? null : "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <GiHamburgerMenu
-            onClick={() => setExtended((prev) => !prev)}
-            className="menu-icon"
-          />
+      <div className="top">
+        <div onClick={() => setExtended(!extended)} className="menu">
+          <GiHamburgerMenu />
         </div>
         <div className="img-container">
           <img
