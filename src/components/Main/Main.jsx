@@ -209,7 +209,7 @@ function Main() {
                 </>
               ) : (
                 <div className="result">
-                  <div className="result-title">
+                  {/* <div className="result-title">
                     <p>{recentPrompt}</p>
                   </div>
                   <div className="result-data">
@@ -238,14 +238,14 @@ function Main() {
                                   <div className="code-block">
                                     <pre {...props} style={{ display: "flex" }}>
                                       <SyntaxHighlighter
-                                        style={vscDarkPlus} // Replace `vs` with your preferred theme
+                                        style={vscDarkPlus} 
                                         language={match ? match[1] : "text"}
                                         PreTag="div"
                                         {...props}
                                       >
                                         {codeText}
                                       </SyntaxHighlighter>
-                                      {/* {codeText}{" "} */}
+                                      
                                       <div className="response-header ">
                                         <button
                                           title="copy"
@@ -276,7 +276,22 @@ function Main() {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </div> */}
+                  <ConversationHistory
+                messages={conversationHistory}
+                loading={loading}
+                handleCopy={(text) => {
+                  navigator.clipboard.writeText(text);
+                  toast.success("Copied to clipboard!", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                  });
+                }}
+              />
                 </div>
               )}
 
@@ -344,3 +359,97 @@ function Main() {
 }
 
 export default Main;
+
+const ConversationHistory = ({ messages, loading, handleCopy }) => {
+
+  // Filter out duplicate messages based on content and role
+  const uniqueMessages = messages.filter(
+    (message, index, self) =>
+      index ===
+      self.findIndex(
+        (m) =>
+          m.parts[0].text === message.parts[0].text && m.role === message.role
+      )
+  );
+
+  return (
+    <div className="result">
+      {uniqueMessages.map((message, index) => (
+        <div
+          className="conversation-item"
+          key={`${message.role}-${index}-${message.parts[0].text.substring(
+            0,
+            20
+          )}`}
+        >
+          {message.role === "user" ? (
+            <div className="result-title">
+              <p>{message.parts[0].text}</p>
+            </div>
+          ) : (
+            <div className="result-data">
+              <img src={botIcon} alt="Bot" />
+              {loading && index === uniqueMessages.length - 1 ? (
+                <div className="loader">
+                  <hr />
+                  <hr />
+                  <hr />
+                </div>
+              ) : (
+                <>
+                  <div className="response-content">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        pre({ node, children, ...props }) {
+                          const codeText = children?.props?.children || "";
+                          const languageClass =
+                            children?.props?.className || "";
+                          const match = /language-(\w+)/.exec(languageClass);
+                          return (
+                            <div className="code-block">
+                              <pre {...props} style={{ display: "flex" }}>
+                                <SyntaxHighlighter
+                                  style={vscDarkPlus}
+                                  language={match ? match[1] : "text"}
+                                  PreTag="div"
+                                  {...props}
+                                >
+                                  {codeText}
+                                </SyntaxHighlighter>
+                                <div className="response-header">
+                                  <button
+                                    title="copy"
+                                    className="copy-button"
+                                    onClick={() => handleCopy(codeText)}
+                                  >
+                                    <RiFileCopyLine size={20} />
+                                  </button>
+                                </div>
+                              </pre>
+                            </div>
+                          );
+                        },
+                      }}
+                    >
+                      {message.parts[0].text}
+                    </ReactMarkdown>
+                  </div>
+                  <div className="response-header">
+                    <button
+                      title="copy"
+                      onClick={() => handleCopy(message.parts[0].text)}
+                      className="copy-button"
+                    >
+                      <RiFileCopyLine size={20} />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
