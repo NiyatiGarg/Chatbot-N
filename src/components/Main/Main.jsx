@@ -58,18 +58,6 @@ function Main() {
     }
   };
 
-  const copyResponse = () => {
-    navigator.clipboard.writeText(resultData);
-    toast.success("Copied to clipboard!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-    });
-  };
 
   // Function to handle file upload
   const handleFileUpload = (file) => {
@@ -93,19 +81,6 @@ function Main() {
     } else {
       showToast("Unsupported file type!", "error");
     }
-  };
-
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    toast.success("Code copied to clipboard!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-    });
   };
 
   useEffect(() => {
@@ -372,6 +347,24 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
       )
   );
 
+  const copyText = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+  
+  const copyCode = async (codeText) => {
+    try {
+      await navigator.clipboard.writeText(codeText);
+      
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <div className="result">
       {uniqueMessages.map((message, index) => (
@@ -384,7 +377,35 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
         >
           {message.role === "user" ? (
             <div className="result-title">
-              <p>{message.parts[0].text}</p>
+              <p style={{whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word',}}>
+              <ReactMarkdown
+              components={{
+                pre({ node, children, ...props }) {
+                  const codeText = children?.props?.children || "";
+                  const languageClass =
+                    children?.props?.className || "";
+                  const match = /language-(\w+)/.exec(languageClass);
+                  return (
+                    <div className="prompt-code-block">
+                      <pre {...props} style={{ display: "flex" }}>
+                        <SyntaxHighlighter
+                          // style={{}}
+                          language={match ? match[1] : "text"}
+                          PreTag="div"
+                          {...props}
+                        >
+                          {codeText}
+                        </SyntaxHighlighter>
+                        
+                      </pre>
+                    </div>
+                  );
+                },
+              }}
+              >{message.parts[0].text}
+              </ReactMarkdown>
+              </p>
             </div>
           ) : (
             <div className="result-data">
@@ -421,7 +442,7 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
                                   <button
                                     title="copy"
                                     className="copy-button"
-                                    onClick={() => handleCopy(codeText)}
+                                    onClick={() => copyCode(codeText)}
                                   >
                                     <RiFileCopyLine size={20} />
                                   </button>
@@ -438,7 +459,7 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
                   <div className="response-header">
                     <button
                       title="copy"
-                      onClick={() => handleCopy(message.parts[0].text)}
+                      onClick={() => copyText(message.parts[0].text)}
                       className="copy-button"
                     >
                       <RiFileCopyLine size={20} />
