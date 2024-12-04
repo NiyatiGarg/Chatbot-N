@@ -161,7 +161,7 @@
     height: 28px;
 }
 .result-title {
-    margin: 0 0 40px 0px;
+    margin: 3rem 5rem ;
     display: flex;
     margin-right: 1rem;
     align-items: flex-end;
@@ -173,7 +173,7 @@
     position: relative;
     border-radius: 10px;
     border-top-right-radius: 0;
-    padding: 10px 20px;
+    padding:8px 8px;
     background-color: #051430;
     color: white;
 }
