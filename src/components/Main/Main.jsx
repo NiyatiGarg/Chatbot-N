@@ -1,4 +1,4 @@
-import React, { useContext, useState , useEffect} from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Main.css";
 // import { Tooltip } from "react-tooltip";
 
@@ -47,6 +47,7 @@ function Main() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(true);
+  const [inputBoxHeight, setInputBoxHeight] = useState("auto");
 
   const openModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -57,7 +58,6 @@ function Main() {
       onSent(input);
     }
   };
-
 
   // Function to handle file upload
   const handleFileUpload = (file) => {
@@ -114,14 +114,14 @@ function Main() {
           <div className="chat-container">
             <div style={{ disply: "flex", position: "relative" }}>
               <div className="nav">
-              {extended ? null : (
-            <img
-              onClick={() => setExtended(!extended)}
-              className="menu-icon"
-              src={assets.menu_icon}
-              alt=""
-            />
-          )}
+                {extended ? null : (
+                  <img
+                    onClick={() => setExtended(!extended)}
+                    className="menu-icon"
+                    src={assets.menu_icon}
+                    alt=""
+                  />
+                )}
                 <p>ChatBot N</p>
                 {user ? (
                   <img
@@ -130,11 +130,7 @@ function Main() {
                     onClick={openModal}
                   />
                 ) : (
-                  <img
-                  src={newUser}
-                  alt=""
-                  onClick={openModal}
-                />
+                  <img src={newUser} alt="" onClick={openModal} />
                 )}
               </div>
               <div
@@ -253,20 +249,20 @@ function Main() {
                     )}
                   </div> */}
                   <ConversationHistory
-                messages={conversationHistory}
-                loading={loading}
-                handleCopy={(text) => {
-                  navigator.clipboard.writeText(text);
-                  toast.success("Copied to clipboard!", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: false,
-                  });
-                }}
-              />
+                    messages={conversationHistory}
+                    loading={loading}
+                    handleCopy={(text) => {
+                      navigator.clipboard.writeText(text);
+                      toast.success("Copied to clipboard!", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                      });
+                    }}
+                  />
                 </div>
               )}
 
@@ -302,28 +298,41 @@ function Main() {
                     type="text"
                     placeholder="Enter a prompt here"
                     rows={1}
+                    style={{ height: inputBoxHeight }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
                         handleSend();
+                        setInputBoxHeight("auto");
                       }
                     }}
                     onInput={(e) => {
-                      e.target.style.height = "auto";
-                      e.target.style.height = `${e.target.scrollHeight}px`;
-                      e.target.style.maxHeight = "30vh";
+                      // Dynamically adjust height
+                      setInputBoxHeight(e.target.scrollHeight);
+                      // e.target.style.height = `${inputBoxHeight}px`;
+                      e.target.style.maxHeight = "40vh";
                     }}
                   />
                   <div>
                     <MicFeature handleSendFunction={handleSend} />
-                    {input && <img onClick={handleSend} src={send} alt="" />}
+                    {input && (
+                      <img
+                        onClick={() => {
+                          handleSend();
+                          setInputBoxHeight("auto");
+                        }}
+                        src={send}
+                        alt=""
+                      />
+                    )}
                   </div>
                 </div>
-                {isSmallScreen? null : <p className="bottom-info">
-                  ChatBot N may display inaccurate info , including about
-                  people, so double-check its responses.
-                </p>}
-                
+                {isSmallScreen ? null : (
+                  <p className="bottom-info">
+                    ChatBot N may display inaccurate info , including about
+                    people, so double-check its responses.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -336,6 +345,14 @@ function Main() {
 export default Main;
 
 const ConversationHistory = ({ messages, loading, handleCopy }) => {
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, loading]);
 
   // Filter out duplicate messages based on content and role
   const uniqueMessages = messages.filter(
@@ -350,18 +367,16 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
   const copyText = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
-  
+
   const copyCode = async (codeText) => {
     try {
       await navigator.clipboard.writeText(codeText);
-      
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
@@ -377,34 +392,32 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
         >
           {message.role === "user" ? (
             <div className="result-title">
-              <p style={{whiteSpace: 'pre-wrap',
-                wordWrap: 'break-word',}}>
-              <ReactMarkdown
-              components={{
-                pre({ node, children, ...props }) {
-                  const codeText = children?.props?.children || "";
-                  const languageClass =
-                    children?.props?.className || "";
-                  const match = /language-(\w+)/.exec(languageClass);
-                  return (
-                    <div className="prompt-code-block">
-                      <pre {...props} style={{ display: "flex" }}>
-                        <SyntaxHighlighter
-                          // style={{}}
-                          language={match ? match[1] : "text"}
-                          PreTag="div"
-                          {...props}
-                        >
-                          {codeText}
-                        </SyntaxHighlighter>
-                        
-                      </pre>
-                    </div>
-                  );
-                },
-              }}
-              >{message.parts[0].text}
-              </ReactMarkdown>
+              <p style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+                <ReactMarkdown
+                  components={{
+                    pre({ node, children, ...props }) {
+                      const codeText = children?.props?.children || "";
+                      const languageClass = children?.props?.className || "";
+                      const match = /language-(\w+)/.exec(languageClass);
+                      return (
+                        <div className="prompt-code-block">
+                          <pre {...props} style={{ display: "flex" }}>
+                            <SyntaxHighlighter
+                              // style={{}}
+                              language={match ? match[1] : "text"}
+                              PreTag="div"
+                              {...props}
+                            >
+                              {codeText}
+                            </SyntaxHighlighter>
+                          </pre>
+                        </div>
+                      );
+                    },
+                  }}
+                >
+                  {message.parts[0].text}
+                </ReactMarkdown>
               </p>
             </div>
           ) : (
@@ -471,6 +484,7 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
           )}
         </div>
       ))}
-    </div>
+       <div ref={bottomRef} />
+       </div>
   );
 };
