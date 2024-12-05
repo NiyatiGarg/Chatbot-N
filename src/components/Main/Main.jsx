@@ -303,13 +303,13 @@ function Main() {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
                         handleSend();
-                        setInputBoxHeight("auto");
+                        e.target.style.height = "auto"; 
                       }
                     }}
                     onInput={(e) => {
                       // Dynamically adjust height
-                      setInputBoxHeight(e.target.scrollHeight);
-                      // e.target.style.height = `${inputBoxHeight}px`;
+                      e.target.style.height = "auto"; // Reset height to calculate correctly
+                      e.target.style.height = `${e.target.scrollHeight}px`; // Set height to match content
                       e.target.style.maxHeight = "40vh";
                     }}
                   />
