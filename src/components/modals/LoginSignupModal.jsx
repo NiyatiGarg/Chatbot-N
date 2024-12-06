@@ -31,7 +31,6 @@ const LoginSignupModal = ({ position }) => {
             <img src={user.photoURL || userIcon} alt=""  style={{ borderRadius: '50%', heigth: 'auto', width: '5rem'}}/>
           </div>
         )}
-
         {user ? (
           <div
             className="d-flex items-center cursor-pointer gap-2 align-items-center block-hover"
@@ -39,7 +38,11 @@ const LoginSignupModal = ({ position }) => {
           >
             <User size={16} className="text-gray-600" />
             <Link
-              onClick={logout}
+              onClick={() => {
+                if (window.confirm("Are you sure you want to log out?")) {
+                  logout();
+                }
+              }}
               style={{ color: "black", textDecoration: "none" }}
             >
               Log Out

@@ -381,7 +381,7 @@ const ConversationHistory = ({ messages, loading, handleCopy }) => {
   };
 
   return (
-    <div className="result">
+    <div className="result-parent">
       {uniqueMessages.map((message, index) => (
         <div
           className="conversation-item"
