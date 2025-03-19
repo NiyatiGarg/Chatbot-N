@@ -1,0 +1,108 @@
+.sidebar {
+    min-height: 100vh;
+    max-width: 40vh;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #2b2109;
+    padding: 25px 15px;
+    z-index: 9999;
+}
+
+.sidebar img {
+    width: 20px;
+}
+
+.sidebar .menu {
+    display: flex;
+align-items: center;
+justify-content: center;
+    cursor: pointer;
+    height: 30px;
+    width: 55px
+}
+
+.sidebar .new-chat {
+    margin-top: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #F3F3F0;
+    border-radius: 5px;
+    font-size: 14px;
+    color: grey;
+    cursor: pointer;
+}
+
+.sidebar .recent {
+    display: flex;
+    flex-direction: column;
+    height: 55vh;
+    overflow: scroll;
+}
+
+.sidebar .recent::-webkit-scrollbar {
+    display: none;
+    /* Hides scrollbar for Chrome, Safari, and Edge */
+}
+
+.sidebar .recent-title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.recent-entry {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    color: #F3F3F0;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.recent-entry p {
+    width: 22vh;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+}
+
+.sidebar .recent-entry:hover {
+    background-color: #F3F3F0;
+    color: black
+}
+
+
+
+.sidebar .bottom {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.sidebar .bottom-item {
+    gap: 1rem;
+    display: flex;
+    cursor: pointer;
+    color: white;
+    align-items: center;
+    justify-content: start;
+}
+
+.bottom-item p {
+    margin: 0;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    align-items: bottom;
+    margin-left: 1rem;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
